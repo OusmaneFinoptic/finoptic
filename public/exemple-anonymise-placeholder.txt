@@ -1,3 +1,11 @@
-Placeholder - exemple anonymise Finoptic
+Exemple anonymise Finoptic - donnees simulees
 
-Ce fichier sera remplace par un livrable anonymise telechargeable.
+Ce fichier sert de placeholder pour le livrable avant/apres.
+
+Format cible :
+- source : extrait de reporting non cote / PDF de fonds brut ;
+- sortie : note client structuree ;
+- sections : contexte, allocation, performance, faits marquants, risques, points a valider ;
+- controle : rien ne sort sans validation humaine.
+
+Cet exemple ne represente pas un client reel et ne constitue pas une promesse de resultat.

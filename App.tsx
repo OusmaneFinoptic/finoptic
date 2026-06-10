@@ -7,7 +7,6 @@ import {
   FileText,
   Linkedin,
   Mail,
-  Play,
   ShieldCheck,
   Sparkles,
   Youtube,
@@ -87,13 +86,13 @@ const BlueUnderline = () => (
 const StatLine = () => (
   <div className="mx-auto mt-14 flex max-w-3xl flex-wrap items-baseline justify-center gap-x-8 gap-y-3 text-center">
     <div className="flex items-baseline gap-2">
-      <span className="font-serif text-2xl italic leading-none text-text-strong-950 md:text-3xl">15h</span>
-      <span className="font-serif text-base italic text-[#65748b]">par semaine aujourd'hui</span>
+      <span className="font-serif text-2xl italic leading-none text-text-strong-950 md:text-3xl">Jusqu'à 15h</span>
+      <span className="font-serif text-base italic text-[#65748b]">par semaine observées</span>
     </div>
     <span className="hidden text-[#dedbd2] md:inline">·</span>
     <div className="flex items-baseline gap-2">
-      <span className="font-serif text-2xl italic leading-none text-text-strong-950 md:text-3xl">12h</span>
-      <span className="font-serif text-base italic text-[#65748b]">récupérées en cible</span>
+      <span className="font-serif text-2xl italic leading-none text-text-strong-950 md:text-3xl">1 workflow</span>
+      <span className="font-serif text-base italic text-[#65748b]">analysé gratuitement</span>
     </div>
     <span className="hidden text-[#dedbd2] md:inline">·</span>
     <div className="flex items-baseline gap-2">
@@ -110,16 +109,16 @@ const Hero = () => (
         Finoptic : production documentaire augmentée
       </p>
       <h1 className="mx-auto mt-6 max-w-6xl font-serif text-[2.45rem] font-normal italic leading-[1.02] tracking-[-0.03em] text-text-strong-950 md:text-[4.1rem] lg:text-[5.35rem]">
-        Vos associés passent 15 heures par semaine à produire des documents.
-        <span className="relative inline-block whitespace-nowrap">
-          Finoptic en récupère 12.
+        Vos équipes passent jusqu'à 15 heures par semaine à produire des documents.
+        <span className="relative inline-block">
+          Finoptic les aide à en récupérer une grande partie.
           <BlueUnderline />
         </span>
       </h1>
       <p className="mx-auto mt-10 max-w-4xl text-lg leading-relaxed text-[#65748b] md:text-xl">
         Systèmes de production documentaire augmentés par l'IA pour cabinets patrimoniaux,
         family offices et conseil financier : reportings non cotés, notes d'analyse, mémos,
-        packs clients — au niveau de qualité que vous validez.
+        packs clients — sans baisser votre standard de qualité.
       </p>
       <StatLine />
     </div>
@@ -146,22 +145,22 @@ const SectionHeader = ({
 
 const mediaCards = [
   {
-    label: 'LIVRABLE CLIENT',
+    label: 'EXEMPLE ILLUSTRATIF · AVANT',
     title: 'Reporting non coté — PDF de fonds brut → note client',
     tone: 'blue',
   },
   {
-    label: 'NOTE D’ANALYSE',
+    label: 'EXEMPLE ILLUSTRATIF · APRÈS',
     title: 'Mémo d’investissement — points clés, risques, décision',
     tone: 'paper',
   },
   {
-    label: 'PACK CLIENT',
+    label: 'DONNÉES SIMULÉES',
     title: 'Synthèse trimestrielle — format cabinet, validation humaine',
     tone: 'dark',
   },
   {
-    label: 'PROCESS',
+    label: 'PROCESS PROOF',
     title: 'Chaque fonds envoie son PDF. Chaque client reçoit sa synthèse.',
     tone: 'paper',
   },
@@ -210,8 +209,8 @@ const Thumbnail = ({ tone }: { tone: string }) => (
       </div>
     </div>
     <div className="absolute inset-0 flex items-center justify-center">
-      <span className="flex h-14 w-16 items-center justify-center rounded-xl bg-black/55 text-white shadow-lg">
-        <Play className="h-6 w-6 fill-current" />
+      <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-black/55 text-white shadow-lg">
+        <FileCheck2 className="h-6 w-6" />
       </span>
     </div>
     <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/75 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text-strong-950 backdrop-blur">
@@ -224,12 +223,25 @@ const Thumbnail = ({ tone }: { tone: string }) => (
 const MediaGrid = () => (
   <section className="bg-[#F7F5EF] px-6 py-16 md:py-24">
     <div className="mx-auto max-w-6xl">
-      <SectionHeader eyebrow="Livrables clients" title="Voir un livrable plutôt qu'une promesse.">
+      <SectionHeader eyebrow="Preuve par l'exemple" title="Un exemple vaut mieux qu'une promesse.">
         <p>
-          Le non-coté est entré dans tous les portefeuilles. La charge documentaire aussi.
-          Chaque trimestre, les documents changent de format. Votre standard, lui, ne doit pas bouger.
+          Découvrez comment un reporting brut peut être transformé en note client claire, structurée
+          et contrôlée. Les exemples ci-dessous sont illustratifs, basés sur des données simulées.
         </p>
       </SectionHeader>
+      <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a
+          href="/exemple-anonymise-placeholder.txt"
+          download
+          className="inline-flex items-center justify-center gap-3 rounded-md bg-[#2675ff] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+        >
+          <Download className="h-4 w-4" />
+          Voir un exemple anonymisé
+        </a>
+        <p className="text-sm leading-relaxed text-[#65748b]">
+          Données simulées. Format représentatif du type de livrable produit.
+        </p>
+      </div>
       <div className="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
         {mediaCards.map((card) => (
           <article key={card.title}>
@@ -260,10 +272,10 @@ const proofCards = [
 const ProofWall = () => (
   <section className="bg-[#F7F5EF] px-6 py-16 md:py-24">
     <div className="mx-auto max-w-6xl">
-      <SectionHeader eyebrow="Ce que le système absorbe" title="Ces documents qui nous ont coûté des heures senior.">
+      <SectionHeader eyebrow="Ce que le système absorbe" title="Ces documents qui coûtent des heures senior.">
         <p>
-          Production répétitive, sources hétérogènes, contrôle final par les associés. Finoptic
-          structure le flux pour que l'équipe ne reprenne la main qu'aux bons endroits.
+          Production répétitive, sources hétérogènes, contrôle final par les associés. Finoptic structure
+          le flux pour que l'équipe ne reprenne la main qu'aux bons endroits.
         </p>
       </SectionHeader>
       <div className="grid gap-4 md:grid-cols-3">
@@ -294,7 +306,7 @@ const EngineSection = () => {
     'La donnée utile est extraite et normalisée',
     'Le livrable sort dans votre format exact',
     'Les points sensibles remontent avant validation',
-    'Rien ne sort sans contrôle humain',
+    'Rien ne sort sans validation humaine',
   ];
 
   return (
@@ -357,7 +369,7 @@ const FitAndProcess = () => (
       </div>
       <div className="mt-20 grid gap-4 md:grid-cols-3">
         {[
-          ['Audit Flash', 'Offert · livré sous 72h'],
+          ['Audit Flash', 'Offert · 1 workflow · livré sous 72h'],
           ['Diagnostic Finoptic', '2 500€ · 1 semaine'],
           ["Sprint d'implémentation", 'Sur devis · 3-4 semaines'],
         ].map(([title, detail]) => (
@@ -462,8 +474,8 @@ const AuditFormSection = () => {
       <div className="mx-auto max-w-6xl">
         <SectionHeader eyebrow="Audit Flash" title="Deux places de pilote ouvertes ce trimestre.">
           <p>
-            Sans engagement. Vous recevez une analyse personnalisée de vos process documentaires +
-            un exemple de livrable refait à notre standard.
+            Sans engagement. Vous recevez l'analyse d'un seul workflow documentaire + un exemple de
+            livrable refait à notre standard. Pas un audit complet gratuit, un point d'entrée sérieux.
           </p>
         </SectionHeader>
         <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
@@ -475,6 +487,14 @@ const AuditFormSection = () => {
             >
               <Download className="h-4 w-4" />
               Télécharger un exemple anonymisé
+            </a>
+            <a
+              href="/audit-flash-sample.pdf"
+              download
+              className="inline-flex items-center gap-3 rounded-md border border-[#dedbd2] bg-white/55 px-6 py-3 text-sm font-semibold text-text-strong-950 transition hover:bg-white"
+            >
+              <Download className="h-4 w-4" />
+              Télécharger un Audit Flash sample
             </a>
             <div className="rounded-xl border border-[#e3e0d8] bg-white/55 p-6">
               <div className="mb-4 flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.18em] text-text-strong-950">
