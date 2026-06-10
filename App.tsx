@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import {
   ArrowRight,
+  BadgeEuro,
+  CheckCircle2,
   ChevronDown,
+  ClipboardCheck,
+  Clock3,
+  Database,
   Download,
   FileCheck2,
   FileText,
-  Linkedin,
-  Mail,
+  PenLine,
   ShieldCheck,
-  Sparkles,
-  Youtube,
+  UserRound,
+  XCircle,
 } from 'lucide-react';
+
+type IconComponent = React.ComponentType<{ className?: string; strokeWidth?: number }>;
 
 type AuditFormState = {
   name: string;
@@ -34,222 +40,261 @@ const auditHref = '#audit-flash';
 
 const cx = (...classes: Array<string | false | undefined>) => classes.filter(Boolean).join(' ');
 
-const LogoMark = () => (
-  <span className="relative flex h-7 w-7 items-center justify-center">
-    <span className="absolute left-1/2 top-1/2 h-2.5 w-6 -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-full bg-text-strong-950" />
-    <span className="absolute left-1/2 top-1/2 h-2.5 w-6 -translate-x-1/2 -translate-y-1/2 -rotate-45 rounded-full bg-text-strong-950" />
-    <span className="relative h-2.5 w-2.5 rounded-full bg-[#F7F5EF]" />
-  </span>
+const PrimaryCTA = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => (
+  <a
+    href={auditHref}
+    className={cx(
+      'inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-primary-base px-6 py-3 text-sm font-medium text-white shadow-fancy-buttons-neutral transition hover:bg-zinc-800',
+      className
+    )}
+  >
+    {children}
+    <ArrowRight className="h-4 w-4" />
+  </a>
 );
 
 const Header = () => (
-  <header className="sticky top-0 z-50 w-full border-b border-[#dedbd2] bg-white/85 px-6 py-4 backdrop-blur-sm">
-    <div className="mx-auto flex max-w-6xl items-center justify-between">
-      <a href="#" className="flex items-center gap-3">
-        <LogoMark />
-        <span className="text-xl font-extrabold tracking-[-0.02em] text-text-strong-950">
-          Finoptic<span className="text-[#2675ff]">.fr</span>
-        </span>
+  <header className="sticky top-0 z-50 border-b border-stroke-soft-200 bg-white/85 px-5 py-4 backdrop-blur-md">
+    <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
+      <a href="#" className="text-xl font-bold tracking-[-0.02em] text-text-strong-950">
+        Finoptic
       </a>
-      <div className="flex items-center gap-4 text-zinc-400">
-        <a href={auditHref} aria-label="Audit Flash" className="transition-colors hover:text-text-strong-950">
-          <Mail className="h-4 w-4" />
-        </a>
-        <a href="#" aria-label="LinkedIn" className="transition-colors hover:text-text-strong-950">
-          <Linkedin className="h-4 w-4" />
-        </a>
-        <a href="#" aria-label="Démonstration" className="transition-colors hover:text-text-strong-950">
-          <Youtube className="h-4 w-4" />
-        </a>
-      </div>
+      <PrimaryCTA className="hidden min-h-10 px-4 py-2 sm:inline-flex">
+        Demander un Audit Flash
+      </PrimaryCTA>
     </div>
   </header>
 );
 
-const BlueUnderline = () => (
-  <svg
-    aria-hidden="true"
-    className="pointer-events-none absolute -bottom-[0.35em] left-0 right-0 h-[0.35em] w-full text-[#2675ff]"
-    viewBox="0 0 420 32"
-    preserveAspectRatio="none"
-  >
-    <path
-      d="M7 20C78 8 155 26 230 16c69-9 121-18 183-6"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeWidth="6"
-    />
-  </svg>
-);
-
-const StatLine = () => (
-  <div className="mx-auto mt-14 flex max-w-3xl flex-wrap items-baseline justify-center gap-x-8 gap-y-3 text-center">
-    <div className="flex items-baseline gap-2">
-      <span className="font-serif text-2xl italic leading-none text-text-strong-950 md:text-3xl">Jusqu'à 15h</span>
-      <span className="font-serif text-base italic text-[#65748b]">par semaine observées</span>
-    </div>
-    <span className="hidden text-[#dedbd2] md:inline">·</span>
-    <div className="flex items-baseline gap-2">
-      <span className="font-serif text-2xl italic leading-none text-text-strong-950 md:text-3xl">1 workflow</span>
-      <span className="font-serif text-base italic text-[#65748b]">analysé gratuitement</span>
-    </div>
-    <span className="hidden text-[#dedbd2] md:inline">·</span>
-    <div className="flex items-baseline gap-2">
-      <span className="font-serif text-2xl italic leading-none text-text-strong-950 md:text-3xl">72h</span>
-      <span className="font-serif text-base italic text-[#65748b]">pour l'Audit Flash</span>
-    </div>
+const SectionIntro = ({
+  eyebrow,
+  title,
+  children,
+  align = 'left',
+}: {
+  eyebrow?: string;
+  title: string;
+  children?: React.ReactNode;
+  align?: 'left' | 'center';
+}) => (
+  <div className={cx('max-w-4xl', align === 'center' && 'mx-auto text-center')}>
+    {eyebrow && (
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-400">{eyebrow}</p>
+    )}
+    <h2 className="mt-4 text-balance font-serif text-4xl font-normal leading-tight text-text-strong-950 sm:text-5xl">
+      {title}
+    </h2>
+    {children && <div className="mt-5 text-lg leading-relaxed text-text-sub-600">{children}</div>}
   </div>
 );
 
 const Hero = () => (
-  <section className="w-full bg-[#F7F5EF] px-6 pb-12 pt-24 md:pb-16 md:pt-32">
-    <div className="mx-auto max-w-7xl text-center">
-      <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#2675ff] md:text-sm">
-        Finoptic : production documentaire augmentée
+  <section className="px-5 pb-20 pt-20 sm:pb-28 sm:pt-28">
+    <div className="mx-auto flex max-w-6xl flex-col items-center text-center">
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-400">
+        Production documentaire augmentée par l'IA
       </p>
-      <h1 className="mx-auto mt-6 max-w-6xl font-serif text-[2.45rem] font-normal italic leading-[1.02] tracking-[-0.03em] text-text-strong-950 md:text-[4.1rem] lg:text-[5.35rem]">
-        Vos équipes passent jusqu'à 15 heures par semaine à produire des documents.
-        <span className="relative inline-block">
-          Finoptic les aide à en récupérer une grande partie.
-          <BlueUnderline />
-        </span>
+      <h1 className="mt-6 max-w-5xl text-balance font-serif text-5xl font-normal leading-[1.02] text-text-strong-950 sm:text-7xl">
+        Industrialisez vos livrables financiers récurrents, sans perdre le contrôle.
       </h1>
-      <p className="mx-auto mt-10 max-w-4xl text-lg leading-relaxed text-[#65748b] md:text-xl">
-        Systèmes de production documentaire augmentés par l'IA pour cabinets patrimoniaux,
-        family offices et conseil financier : reportings non cotés, notes d'analyse, mémos,
-        packs clients — sans baisser votre standard de qualité.
+      <p className="mt-7 max-w-3xl text-base leading-relaxed text-text-sub-600 sm:text-xl">
+        Finoptic installe des systèmes de production documentaire augmentés par l'IA pour cabinets
+        patrimoniaux, family offices et conseil financier : reportings non cotés, notes d'analyse,
+        mémos et packs clients — avec validation humaine à chaque étape.
       </p>
-      <StatLine />
+      <div className="mt-9 flex w-full max-w-2xl flex-col items-center gap-4">
+        <PrimaryCTA className="w-full sm:w-auto">
+          Demander un Audit Flash — offert, livré sous 72h
+        </PrimaryCTA>
+        <p className="max-w-xl text-sm leading-relaxed text-zinc-500">
+          Analyse d'un workflow documentaire + exemple de livrable refait à notre standard. Sans engagement.
+        </p>
+      </div>
     </div>
   </section>
 );
 
-const SectionHeader = ({
-  eyebrow,
-  title,
-  children,
-}: {
-  eyebrow: string;
-  title: string;
-  children?: React.ReactNode;
-}) => (
-  <div className="mb-10 max-w-4xl">
-    <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#2675ff]">{eyebrow}</p>
-    <h2 className="mt-6 font-serif text-4xl font-normal italic leading-tight tracking-[-0.025em] text-text-strong-950 md:text-5xl lg:text-[3.35rem]">
-      {title}
-    </h2>
-    {children && <div className="mt-5 max-w-4xl text-lg leading-relaxed text-[#65748b]">{children}</div>}
-  </div>
+const ProblemSection = () => (
+  <section className="border-y border-stroke-soft-200 bg-white px-5 py-20 sm:py-24">
+    <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <SectionIntro title="Chaque trimestre, les mêmes documents reviennent. Rarement dans le même format." />
+      <div className="space-y-6 text-lg leading-relaxed text-text-sub-600">
+        <p>
+          Reportings de fonds, factsheets, capital account statements, notes produits, données
+          portefeuille, commentaires de gestion : les sources changent, les formats varient, mais le
+          livrable client doit rester clair, fiable et professionnel.
+        </p>
+        <p>
+          Le problème n'est pas de rédiger. C'est de maintenir un standard : les chiffres à vérifier,
+          les sources à retrouver, les commentaires à harmoniser, et la relecture à sécuriser.
+        </p>
+        <div className="rounded-2xl border border-stroke-soft-200 bg-bg-weak-50 p-6 shadow-regular-xs">
+          <p className="font-serif text-2xl leading-snug text-text-strong-950">
+            ChatGPT peut aider sur une phrase. Il ne tient pas, seul, un processus documentaire financier.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 );
 
-const mediaCards = [
+const engineSteps: Array<{ title: string; desc: string; icon: IconComponent }> = [
   {
-    label: 'EXEMPLE ILLUSTRATIF · AVANT',
-    title: 'Reporting non coté — PDF de fonds brut → note client',
-    tone: 'blue',
+    title: 'Ingestion',
+    desc: 'Les documents sources sont centralisés : PDF fonds, notes internes, données Excel, transcripts, factsheets ou documents clients.',
+    icon: Database,
   },
   {
-    label: 'EXEMPLE ILLUSTRATIF · APRÈS',
-    title: 'Mémo d’investissement — points clés, risques, décision',
-    tone: 'paper',
+    title: 'Structuration',
+    desc: 'Les données clés sont extraites dans un schéma constant : KPIs, dates, commentaires, risques, chiffres à vérifier, sources.',
+    icon: ClipboardCheck,
   },
   {
-    label: 'DONNÉES SIMULÉES',
-    title: 'Synthèse trimestrielle — format cabinet, validation humaine',
-    tone: 'dark',
+    title: 'Génération',
+    desc: 'Le système produit une première version du livrable selon le format et le ton du cabinet.',
+    icon: PenLine,
   },
   {
-    label: 'PROCESS PROOF',
-    title: 'Chaque fonds envoie son PDF. Chaque client reçoit sa synthèse.',
-    tone: 'paper',
-  },
-  {
-    label: 'CONTRÔLE QUALITÉ',
-    title: 'Rien ne sort sans validation : les points sensibles remontent.',
-    tone: 'dark',
-  },
-  {
-    label: 'TEMPS SENIOR',
-    title: 'ChatGPT gagne 20 minutes. Un système tient tout le processus.',
-    tone: 'blue',
+    title: 'Contrôle humain',
+    desc: 'Rien ne sort automatiquement. Les chiffres, le style, la cohérence et la conformité sont relus avant validation.',
+    icon: ShieldCheck,
   },
 ];
 
-const Thumbnail = ({ tone }: { tone: string }) => (
-  <div
-    className={cx(
-      'relative aspect-video overflow-hidden rounded-xl border border-[#d8d8d2]',
-      tone === 'blue' && 'bg-[#dce8ff]',
-      tone === 'paper' && 'bg-[#eef1f4]',
-      tone === 'dark' && 'bg-[#1e2329]'
-    )}
-  >
-    <div className="absolute inset-0 grid grid-cols-2">
-      <div
-        className={cx(
-          'p-5',
-          tone === 'dark' ? 'bg-white/10' : 'bg-white/55'
-        )}
-      >
-        <div className={cx('mb-4 h-4 w-24 rounded', tone === 'dark' ? 'bg-white/35' : 'bg-[#b7c0ca]')} />
-        <div className="space-y-2">
-          <div className={cx('h-2 rounded', tone === 'dark' ? 'bg-white/25' : 'bg-[#c7ced6]')} />
-          <div className={cx('h-2 w-4/5 rounded', tone === 'dark' ? 'bg-white/25' : 'bg-[#c7ced6]')} />
-          <div className={cx('h-2 w-2/3 rounded', tone === 'dark' ? 'bg-white/25' : 'bg-[#c7ced6]')} />
-        </div>
-      </div>
-      <div className="relative p-5">
-        <div className="absolute inset-x-5 top-5 h-16 rounded-lg bg-white/45" />
-        <div className="absolute bottom-5 left-5 right-5 grid grid-cols-3 gap-2">
-          <span className="h-9 rounded bg-white/45" />
-          <span className="h-9 rounded bg-white/45" />
-          <span className="h-9 rounded bg-white/45" />
-        </div>
+const DocumentEngineSection = () => (
+  <section className="px-5 py-20 sm:py-28">
+    <div className="mx-auto max-w-6xl">
+      <SectionIntro eyebrow="Mécanisme" title="Le Document Engine Finoptic" />
+      <div className="mt-12 grid gap-4 md:grid-cols-4">
+        {engineSteps.map((step, index) => {
+          const Icon = step.icon;
+
+          return (
+            <article key={step.title} className="rounded-2xl border border-stroke-soft-200 bg-white p-6 shadow-regular-xs">
+              <div className="mb-6 flex items-center justify-between">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full border border-stroke-soft-200 bg-bg-weak-50 text-sm font-medium text-text-sub-600">
+                  {index + 1}
+                </span>
+                <Icon className="h-5 w-5 text-zinc-400" strokeWidth={1.8} />
+              </div>
+              <h3 className="text-lg font-semibold text-text-strong-950">{step.title}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-text-sub-600">{step.desc}</p>
+            </article>
+          );
+        })}
       </div>
     </div>
-    <div className="absolute inset-0 flex items-center justify-center">
-      <span className="flex h-14 w-14 items-center justify-center rounded-xl bg-black/55 text-white shadow-lg">
-        <FileCheck2 className="h-6 w-6" />
-      </span>
-    </div>
-    <div className="absolute left-4 top-4 flex items-center gap-2 rounded-full bg-white/75 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] text-text-strong-950 backdrop-blur">
-      <Sparkles className="h-3 w-3 text-[#2675ff]" />
-      Finoptic
+  </section>
+);
+
+const RawDocument = () => (
+  <div className="rounded-2xl border border-stroke-soft-200 bg-white p-4 shadow-regular-xs">
+    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">Document source brut</p>
+    <div className="min-h-[320px] rounded-xl border border-stroke-soft-200 bg-bg-weak-50 p-5">
+      <div className="h-8 w-36 rounded bg-zinc-200" />
+      <div className="mt-8 space-y-3">
+        <div className="h-3 w-full rounded bg-zinc-200" />
+        <div className="h-3 w-11/12 rounded bg-zinc-200" />
+        <div className="h-3 w-8/12 rounded bg-zinc-200" />
+      </div>
+      <div className="mt-8 grid grid-cols-2 gap-3">
+        <div className="h-24 rounded-lg border border-stroke-soft-200 bg-white" />
+        <div className="h-24 rounded-lg border border-stroke-soft-200 bg-white" />
+        <div className="col-span-2 h-24 rounded-lg border border-stroke-soft-200 bg-white" />
+      </div>
     </div>
   </div>
 );
 
-const MediaGrid = () => (
-  <section className="bg-[#F7F5EF] px-6 py-16 md:py-24">
-    <div className="mx-auto max-w-6xl">
-      <SectionHeader eyebrow="Preuve par l'exemple" title="Un exemple vaut mieux qu'une promesse.">
-        <p>
-          Découvrez comment un reporting brut peut être transformé en note client claire, structurée
-          et contrôlée. Les exemples ci-dessous sont illustratifs, basés sur des données simulées.
-        </p>
-      </SectionHeader>
-      <div className="mb-10 flex flex-col gap-3 sm:flex-row sm:items-center">
-        <a
-          href="/exemple-anonymise-placeholder.txt"
-          download
-          className="inline-flex items-center justify-center gap-3 rounded-md bg-[#2675ff] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
-        >
-          <Download className="h-4 w-4" />
-          Voir un exemple anonymisé
-        </a>
-        <p className="text-sm leading-relaxed text-[#65748b]">
-          Données simulées. Format représentatif du type de livrable produit.
-        </p>
+const StructuredNote = () => (
+  <div className="rounded-2xl border border-stroke-soft-200 bg-white p-4 shadow-regular-xs">
+    <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-zinc-400">Note client structurée</p>
+    <div className="min-h-[320px] rounded-xl border border-stroke-soft-200 bg-bg-weak-50 p-5">
+      <h3 className="font-serif text-3xl leading-tight text-text-strong-950">Synthèse client</h3>
+      <div className="mt-6 rounded-xl border border-stroke-soft-200 bg-white p-4">
+        <div className="mb-3 h-2 w-28 rounded bg-primary-base" />
+        <div className="space-y-2">
+          <div className="h-2.5 w-full rounded bg-zinc-200" />
+          <div className="h-2.5 w-10/12 rounded bg-zinc-200" />
+          <div className="h-2.5 w-8/12 rounded bg-zinc-200" />
+        </div>
       </div>
-      <div className="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-        {mediaCards.map((card) => (
-          <article key={card.title}>
-            <Thumbnail tone={card.tone} />
-            <p className="mt-7 text-xs font-semibold uppercase tracking-[0.28em] text-[#65748b]">{card.label}</p>
-            <h3 className="mt-4 font-serif text-2xl font-normal italic leading-snug tracking-[-0.015em] text-text-strong-950 md:text-3xl">
-              {card.title}
-            </h3>
+      <div className="mt-4 grid grid-cols-3 gap-3">
+        <div className="h-16 rounded-lg border border-stroke-soft-200 bg-white" />
+        <div className="h-16 rounded-lg border border-stroke-soft-200 bg-white" />
+        <div className="h-16 rounded-lg border border-stroke-soft-200 bg-white" />
+      </div>
+      <div className="mt-4 rounded-xl bg-primary-base p-4 text-sm font-medium text-white">
+        Points à valider avant envoi
+      </div>
+    </div>
+  </div>
+);
+
+const ExampleProofSection = () => (
+  <section className="bg-white px-5 py-20 sm:py-28">
+    <div className="mx-auto max-w-6xl">
+      <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+        <SectionIntro eyebrow="Preuve par l'exemple" title="Voir un livrable plutôt qu'une promesse.">
+          <p>
+            Nous montrons un exemple anonymisé ou simulé : un document source brut transformé en note
+            claire, structurée et relue.
+          </p>
+        </SectionIntro>
+        <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+          <a
+            href="/exemple-anonymise-placeholder.txt"
+            download
+            className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-stroke-soft-200 bg-white px-5 text-sm font-medium text-text-strong-950 shadow-regular-xs transition hover:bg-zinc-50"
+          >
+            <Download className="h-4 w-4" />
+            Voir un exemple anonymisé
+          </a>
+        </div>
+      </div>
+      <div className="mt-10 grid gap-6 lg:grid-cols-[1fr_auto_1fr] lg:items-center">
+        <RawDocument />
+        <span className="hidden h-10 w-10 items-center justify-center rounded-full border border-stroke-soft-200 bg-bg-weak-50 text-zinc-400 lg:flex">
+          <ArrowRight className="h-4 w-4" />
+        </span>
+        <StructuredNote />
+      </div>
+      <p className="mt-5 text-sm leading-relaxed text-zinc-500">
+        Exemple illustratif. Données anonymisées ou simulées.
+      </p>
+    </div>
+  </section>
+);
+
+const useCases = [
+  {
+    title: 'Reporting non coté',
+    desc: 'Transformer plusieurs reportings fonds en une synthèse client structurée.',
+  },
+  {
+    title: "Note d'analyse fonds / produit",
+    desc: "Produire une première version de note à partir d'un mémorandum, d'une factsheet et d'un reporting.",
+  },
+  {
+    title: 'Pack client trimestriel',
+    desc: 'Assembler portefeuille, commentaires, allocation, points d’attention et prochaines actions.',
+  },
+  {
+    title: 'Proposition commerciale / mémo de mission',
+    desc: 'Transformer un appel client, des notes et un scope en proposition structurée.',
+  },
+];
+
+const UseCasesSection = () => (
+  <section className="px-5 py-20 sm:py-28">
+    <div className="mx-auto max-w-6xl">
+      <SectionIntro eyebrow="Cas d'usage" title="Les workflows que Finoptic peut installer" />
+      <div className="mt-10 grid gap-4 md:grid-cols-2">
+        {useCases.map((item) => (
+          <article key={item.title} className="rounded-2xl border border-stroke-soft-200 bg-white p-7 shadow-regular-xs">
+            <FileText className="h-5 w-5 text-zinc-400" />
+            <h3 className="mt-5 text-xl font-semibold text-text-strong-950">{item.title}</h3>
+            <p className="mt-3 text-base leading-relaxed text-text-sub-600">{item.desc}</p>
           </article>
         ))}
       </div>
@@ -257,180 +302,165 @@ const MediaGrid = () => (
   </section>
 );
 
-const proofCards = [
-  'Reportings non cotés',
-  "Notes d'analyse",
-  'Mémos dirigeants',
-  'Packs clients',
-  'Comités internes',
-  'Synthèses trimestrielles',
-  'Contrôles qualité',
-  'Templates cabinet',
-  'SOP équipe',
+const fitItems = [
+  'vous produisez régulièrement des livrables financiers ou patrimoniaux ;',
+  'vous avez déjà des documents, templates ou process existants ;',
+  'vous voulez un système contrôlé, pas un logiciel de plus ;',
+  'le dirigeant ou associé peut décider rapidement.',
 ];
 
-const ProofWall = () => (
-  <section className="bg-[#F7F5EF] px-6 py-16 md:py-24">
-    <div className="mx-auto max-w-6xl">
-      <SectionHeader eyebrow="Ce que le système absorbe" title="Ces documents qui coûtent des heures senior.">
-        <p>
-          Production répétitive, sources hétérogènes, contrôle final par les associés. Finoptic structure
-          le flux pour que l'équipe ne reprenne la main qu'aux bons endroits.
-        </p>
-      </SectionHeader>
-      <div className="grid gap-4 md:grid-cols-3">
-        {proofCards.map((item, index) => (
-          <div key={item} className="aspect-video rounded-xl border border-[#e3e0d8] bg-[#edf0f4] p-5">
-            <div className="mb-5 flex items-center justify-between">
-              <span className="text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-[#65748b]">
-                0{(index % 3) + 1}
-              </span>
-              <FileText className="h-4 w-4 text-[#65748b]" />
-            </div>
-            <div className="space-y-2">
-              <div className="h-2 w-full rounded bg-[#cfd6df]" />
-              <div className="h-2 w-10/12 rounded bg-[#cfd6df]" />
-              <div className="h-2 w-7/12 rounded bg-[#cfd6df]" />
-            </div>
-            <p className="mt-7 font-serif text-2xl italic leading-tight text-text-strong-950">{item}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
+const notFitItems = [
+  'vous cherchez de la prospection ou des leads ;',
+  'vous voulez un chatbot générique ;',
+  "vous n'avez aucun process documentaire existant ;",
+  "vous êtes une grande structure avec DSI, appels d'offres et cycle long ;",
+  'vous voulez envoyer automatiquement des documents clients sans relecture.',
+];
 
-const EngineSection = () => {
-  const steps = [
-    'Les PDF, Excel et notes entrent dans un flux unique',
-    'La donnée utile est extraite et normalisée',
-    'Le livrable sort dans votre format exact',
-    'Les points sensibles remontent avant validation',
-    'Rien ne sort sans validation humaine',
-  ];
+const FitList = ({ title, items, variant }: { title: string; items: string[]; variant: 'yes' | 'no' }) => {
+  const Icon = variant === 'yes' ? CheckCircle2 : XCircle;
 
   return (
-    <section className="bg-[#F7F5EF] px-6 py-16 md:py-24">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Notre méthode" title="Le Document Engine Finoptic" />
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="aspect-video rounded-xl border border-[#e3e0d8] bg-[#edf0f4] p-6">
-            <div className="flex h-full flex-col justify-between">
-              <div className="grid grid-cols-3 gap-3">
-                <div className="h-20 rounded-lg bg-white/80" />
-                <div className="h-20 rounded-lg bg-white/80" />
-                <div className="h-20 rounded-lg bg-white/80" />
-              </div>
-              <div className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-text-strong-950 text-white shadow-xl">
-                <FileCheck2 className="h-9 w-9" />
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="h-16 rounded-lg bg-white/80" />
-                <div className="h-16 rounded-lg bg-white/80" />
-              </div>
-            </div>
-          </div>
-          <ol className="space-y-4">
-            {steps.map((step) => (
-              <li key={step} className="flex items-start gap-4 border-b border-[#e3e0d8] pb-4 text-sm font-semibold uppercase tracking-[0.15em] text-text-strong-950">
-                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#2675ff]" />
-                {step}
-              </li>
-            ))}
-          </ol>
-        </div>
-      </div>
-    </section>
+    <div className="rounded-2xl border border-stroke-soft-200 bg-white p-7 shadow-regular-xs">
+      <h3 className="text-xl font-semibold text-text-strong-950">{title}</h3>
+      <ul className="mt-6 space-y-4">
+        {items.map((item) => (
+          <li key={item} className="flex gap-3 text-sm leading-relaxed text-text-sub-600">
+            <Icon className="mt-0.5 h-5 w-5 flex-none text-text-strong-950" strokeWidth={1.8} />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 
-const FitAndProcess = () => (
-  <section className="bg-[#F7F5EF] px-6 py-16 md:py-24">
+const FitSection = () => (
+  <section className="border-y border-stroke-soft-200 bg-white px-5 py-20 sm:py-28">
     <div className="mx-auto max-w-6xl">
-      <SectionHeader eyebrow="Qualification" title="Pour les cabinets qui ont déjà une exigence de production." />
-      <div className="grid gap-10 lg:grid-cols-2">
-        <div>
-          <h3 className="font-serif text-3xl italic text-text-strong-950">C'est pour vous si</h3>
-          <ul className="mt-6 space-y-4 text-lg leading-relaxed text-[#65748b]">
-            <li>Cabinet de 3 à 30 personnes.</li>
-            <li>Poche non cotée ou production documentaire dense.</li>
-            <li>Le dirigeant décide.</li>
-            <li>Vous voulez récupérer du temps senior, pas un logiciel de plus.</li>
-          </ul>
-        </div>
-        <div>
-          <h3 className="font-serif text-3xl italic text-text-strong-950">Ce n'est pas pour vous si</h3>
-          <ul className="mt-6 space-y-4 text-lg leading-relaxed text-[#65748b]">
-            <li>Grande structure avec DSI et appels d'offres.</li>
-            <li>Vous cherchez de la prospection ou des leads.</li>
-            <li>Vous débutez sans process existant.</li>
-          </ul>
-        </div>
-      </div>
-      <div className="mt-20 grid gap-4 md:grid-cols-3">
-        {[
-          ['Audit Flash', 'Offert · 1 workflow · livré sous 72h'],
-          ['Diagnostic Finoptic', '2 500€ · 1 semaine'],
-          ["Sprint d'implémentation", 'Sur devis · 3-4 semaines'],
-        ].map(([title, detail]) => (
-          <div key={title} className="rounded-xl border border-[#e3e0d8] bg-white/50 p-6">
-            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-[#2675ff]">{detail}</p>
-            <h3 className="mt-5 font-serif text-3xl italic leading-tight text-text-strong-950">{title}</h3>
-          </div>
-        ))}
+      <SectionIntro eyebrow="Qualification" title="Pour qui Finoptic est utile" />
+      <div className="mt-10 grid gap-6 md:grid-cols-2">
+        <FitList title="C'est pour vous si" items={fitItems} variant="yes" />
+        <FitList title="Ce n'est pas pour vous si" items={notFitItems} variant="no" />
       </div>
     </div>
   </section>
 );
 
-const Founder = () => (
-  <section className="bg-[#F7F5EF] px-6 py-16 md:py-24">
-    <div className="mx-auto max-w-6xl">
-      <SectionHeader eyebrow="Qui je suis ?" title="Des livrables au standard de la banque d'affaires." />
-      <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-        <div className="aspect-[3/4] rounded-xl border border-[#e3e0d8] bg-[#edf0f4] p-6">
-          <div className="flex h-full items-center justify-center rounded-lg bg-white/60">
-            <LogoMark />
-          </div>
-        </div>
-        <div className="space-y-6 text-lg leading-relaxed text-[#334155]">
-          <p>
-            Finoptic est fondé par Ousmane Thienta, issu du financement et de l'investissement en
-            private markets : direct lending, dette privée, M&A.
-          </p>
-          <p>
-            Le point de départ est simple : dans les cabinets exigeants, la production documentaire
-            consomme des heures de haut niveau. Finoptic installe des systèmes qui font tomber cette
-            charge, tout en gardant le contrôle humain.
-          </p>
-          <div className="rounded-xl border border-[#e3e0d8] bg-white/55 p-6">
-            <p className="font-serif text-3xl italic leading-snug text-text-strong-950">
-              Garantie de niveau. Si le système ne respecte pas le standard fixé ensemble, nous itérons
-              gratuitement jusqu'à validation.
-            </p>
-          </div>
-        </div>
+const processSteps: Array<{ title: string; price: string; desc: string; icon: IconComponent }> = [
+  {
+    title: 'Audit Flash',
+    price: 'Offert, 72h',
+    desc: "Analyse d'un workflow documentaire à partir d'éléments publics ou d'un cas décrit. Vous recevez une mini-analyse et un exemple de livrable refait à notre standard.",
+    icon: Clock3,
+  },
+  {
+    title: 'Diagnostic Finoptic',
+    price: '2 500€, 1 semaine',
+    desc: "Après NDA, nous analysons vos vrais documents, vos templates, vos cas d'usage et produisons un mini-POC sur un document réel.",
+    icon: BadgeEuro,
+  },
+  {
+    title: "Sprint d'implémentation",
+    price: 'Sur devis, 3 à 4 semaines',
+    desc: 'Nous installons un Document Engine complet sur un workflow prioritaire : ingestion, structuration, génération, contrôle humain, SOP et formation.',
+    icon: FileCheck2,
+  },
+  {
+    title: 'Desk Finoptic',
+    price: 'Option mensuelle',
+    desc: 'Maintenance, nouveaux templates, adaptation aux nouveaux formats, contrôle qualité et amélioration continue.',
+    icon: ShieldCheck,
+  },
+];
+
+const ProcessOfferSection = () => (
+  <section className="px-5 py-20 sm:py-28">
+    <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+      <SectionIntro title="Une entrée progressive, sans demander tout votre back-office au premier échange.">
+        <p>
+          On commence par un workflow. Si la valeur est claire, on passe aux vrais documents sous NDA.
+        </p>
+      </SectionIntro>
+      <div className="relative pl-7">
+        <div className="absolute bottom-8 left-[19px] top-3 w-px bg-stroke-soft-200" />
+        {processSteps.map((step) => {
+          const Icon = step.icon;
+
+          return (
+            <article key={step.title} className="relative pb-8 last:pb-0">
+              <div className="absolute -left-7 top-1 flex h-10 w-10 items-center justify-center rounded-full border border-stroke-soft-200 bg-white shadow-regular-xs">
+                <Icon className="h-5 w-5 text-zinc-500" strokeWidth={1.8} />
+              </div>
+              <div className="rounded-2xl border border-stroke-soft-200 bg-white p-6 shadow-regular-xs">
+                <p className="text-sm font-semibold text-zinc-400">{step.price}</p>
+                <h3 className="mt-2 text-xl font-semibold text-text-strong-950">{step.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-text-sub-600">{step.desc}</p>
+              </div>
+            </article>
+          );
+        })}
       </div>
+    </div>
+  </section>
+);
+
+const GuaranteeSection = () => (
+  <section className="bg-white px-5 py-20 sm:py-28">
+    <div className="mx-auto max-w-6xl rounded-3xl border border-stroke-soft-200 bg-primary-base p-8 text-white shadow-fancy-buttons-neutral sm:p-12">
+      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-zinc-400">Garantie de méthode</p>
+      <h2 className="mt-5 max-w-4xl font-serif text-4xl font-normal leading-tight sm:text-5xl">
+        Le standard de qualité est défini avant la livraison.
+      </h2>
+      <p className="mt-6 max-w-4xl text-lg leading-relaxed text-zinc-300">
+        Nous fixons ensemble le niveau attendu : structure, ton, données obligatoires, règles de
+        validation, points de contrôle. Si la première version ne respecte pas ce standard, nous
+        itérons jusqu'à validation.
+      </p>
+    </div>
+  </section>
+);
+
+const FounderSection = () => (
+  <section className="px-5 py-20 sm:py-28">
+    <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+      <div className="flex aspect-[4/5] items-center justify-center rounded-3xl border border-stroke-soft-200 bg-white shadow-regular-xs">
+        <UserRound className="h-16 w-16 text-zinc-300" strokeWidth={1.4} />
+      </div>
+      <SectionIntro title="Construit par un profil finance, pas par une agence IA généraliste.">
+        <p>
+          Finoptic est fondé par Ousmane Thienta, profil finance passé par des environnements de
+          dette privée, direct lending, M&A et analyse financière.
+        </p>
+        <p className="mt-4">
+          L'objectif : appliquer l'IA à des livrables exigeants, avec une logique de contrôle, de
+          source et de validation humaine.
+        </p>
+      </SectionIntro>
     </div>
   </section>
 );
 
 const faqs = [
   {
+    q: 'On utilise déjà ChatGPT. Pourquoi Finoptic ?',
+    a: 'ChatGPT est un outil. Finoptic installe un processus : sources, schéma de données, templates, prompts, contrôle qualité, SOP et validation humaine.',
+  },
+  {
     q: 'Mes données sont-elles en sécurité ?',
-    a: "Traitement souverain possible, aucune donnée utilisée pour entraîner des modèles, cadre conforme RGPD. Un NDA peut être signé dès le premier échange.",
+    a: "L'Audit Flash peut se faire sans données confidentielles. Le Diagnostic se fait après NDA. Selon le cas, un traitement local ou souverain peut être étudié. Aucune donnée ne doit être utilisée pour entraîner des modèles.",
   },
   {
-    q: 'On utilise déjà ChatGPT, pourquoi vous ?',
-    a: "Un outil n'est pas un système. Finoptic installe les sources, les templates, les règles de contrôle, la validation humaine et le suivi du niveau de qualité.",
+    q: 'Est-ce que les documents sortent automatiquement ?',
+    a: 'Non. Le système produit une première version. La validation finale reste humaine.',
   },
   {
-    q: 'Combien de temps ?',
-    a: "Audit Flash sous 72h. Diagnostic en 1 semaine. Sprint d'implémentation en 3 à 4 semaines.",
+    q: 'Combien de temps prend une mission ?',
+    a: "Audit Flash : 72h. Diagnostic : 1 semaine. Sprint d'implémentation : 3 à 4 semaines.",
   },
   {
     q: 'Et après le sprint ?',
-    a: 'Une option Desk mensuel couvre la maintenance, les évolutions et les nouveaux templates. Le nombre de places est limité.',
+    a: 'Finoptic peut opérer un Desk mensuel : maintenance, nouveaux formats, nouveaux templates, contrôle qualité et évolutions.',
   },
 ];
 
@@ -438,21 +468,79 @@ const FAQItem = ({ q, a }: { q: string; a: string }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-[#e3e0d8] last:border-0">
+    <div className="border-b border-stroke-soft-200 last:border-0">
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between gap-6 py-5 text-left"
+        className="flex w-full items-center justify-between gap-6 py-6 text-left"
       >
-        <span className="font-serif text-2xl italic text-text-strong-950">{q}</span>
-        <ChevronDown className={cx('h-5 w-5 shrink-0 text-[#65748b] transition-transform', isOpen && 'rotate-180')} />
+        <span className="text-lg font-medium text-text-strong-950">{q}</span>
+        <ChevronDown className={cx('h-5 w-5 flex-none text-zinc-400 transition-transform', isOpen && 'rotate-180 text-text-strong-950')} />
       </button>
-      <div className={cx('overflow-hidden transition-all duration-300', isOpen ? 'max-h-40 pb-5 opacity-100' : 'max-h-0 opacity-0')}>
-        <p className="text-base leading-relaxed text-[#65748b]">{a}</p>
+      <div className={cx('overflow-hidden transition-all duration-300', isOpen ? 'max-h-56 pb-6 opacity-100' : 'max-h-0 opacity-0')}>
+        <p className="text-base leading-relaxed text-text-sub-600">{a}</p>
       </div>
     </div>
   );
 };
+
+const FAQSection = () => (
+  <section className="border-y border-stroke-soft-200 bg-white px-5 py-20 sm:py-28">
+    <div className="mx-auto max-w-4xl">
+      <SectionIntro align="center" title="Questions fréquentes" />
+      <div className="mt-10 rounded-3xl border border-stroke-soft-200 bg-white px-6 shadow-regular-xs sm:px-8">
+        {faqs.map((faq) => (
+          <FAQItem key={faq.q} q={faq.q} a={faq.a} />
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const FinalCTASection = () => (
+  <section className="px-5 py-20 sm:py-28">
+    <div className="mx-auto max-w-6xl rounded-3xl border border-stroke-soft-200 bg-white p-8 text-center shadow-regular-xs sm:p-12">
+      <h2 className="mx-auto max-w-3xl font-serif text-4xl font-normal leading-tight text-text-strong-950 sm:text-5xl">
+        Commencez par un workflow.
+      </h2>
+      <p className="mx-auto mt-5 max-w-3xl text-lg leading-relaxed text-text-sub-600">
+        Envoyez-nous le type de document qui vous prend le plus de temps à produire. Nous vous dirons,
+        sous 72h, ce qui peut être structuré, ce qui doit rester humain, et à quoi pourrait ressembler
+        un livrable Finoptic.
+      </p>
+      <div className="mt-8">
+        <PrimaryCTA className="w-full sm:w-auto">Demander un Audit Flash — offert</PrimaryCTA>
+      </div>
+    </div>
+  </section>
+);
+
+const Field = ({
+  label,
+  value,
+  onChange,
+  type = 'text',
+  required = false,
+  className,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  type?: string;
+  required?: boolean;
+  className?: string;
+}) => (
+  <label className={cx('flex flex-col gap-2 text-sm font-medium text-text-strong-950', className)}>
+    {label}
+    <input
+      required={required}
+      type={type}
+      value={value}
+      onChange={(event) => onChange(event.target.value)}
+      className="h-11 rounded-xl border border-stroke-soft-200 bg-white px-4 text-sm font-normal text-text-strong-950 outline-none transition focus:border-zinc-400"
+    />
+  </label>
+);
 
 const AuditFormSection = () => {
   const [formData, setFormData] = useState<AuditFormState>(initialFormState);
@@ -470,136 +558,90 @@ const AuditFormSection = () => {
   };
 
   return (
-    <section id="audit-flash" className="scroll-mt-20 bg-[#F7F5EF] px-6 py-16 md:py-24">
-      <div className="mx-auto max-w-6xl">
-        <SectionHeader eyebrow="Audit Flash" title="Deux places de pilote ouvertes ce trimestre.">
-          <p>
-            Sans engagement. Vous recevez l'analyse d'un seul workflow documentaire + un exemple de
-            livrable refait à notre standard. Pas un audit complet gratuit, un point d'entrée sérieux.
-          </p>
-        </SectionHeader>
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-6">
+    <section id="audit-flash" className="scroll-mt-24 bg-white px-5 py-20 sm:py-28">
+      <div className="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+        <div className="lg:sticky lg:top-28">
+          <SectionIntro eyebrow="Audit Flash" title="Décrivez votre principal goulot documentaire.">
+            <p>
+              Le formulaire reste volontairement court. L'objectif est d'identifier un workflow
+              prioritaire, pas de cartographier tout votre back-office au premier échange.
+            </p>
+          </SectionIntro>
+          <div className="mt-8 flex flex-col gap-3">
             <a
               href="/exemple-anonymise-placeholder.txt"
               download
-              className="inline-flex items-center gap-3 rounded-md bg-[#2675ff] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-stroke-soft-200 bg-white px-5 text-sm font-medium text-text-strong-950 shadow-regular-xs transition hover:bg-zinc-50"
             >
               <Download className="h-4 w-4" />
-              Télécharger un exemple anonymisé
+              Voir un exemple anonymisé
             </a>
             <a
               href="/audit-flash-sample.pdf"
               download
-              className="inline-flex items-center gap-3 rounded-md border border-[#dedbd2] bg-white/55 px-6 py-3 text-sm font-semibold text-text-strong-950 transition hover:bg-white"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-full border border-stroke-soft-200 bg-white px-5 text-sm font-medium text-text-strong-950 shadow-regular-xs transition hover:bg-zinc-50"
             >
               <Download className="h-4 w-4" />
-              Télécharger un Audit Flash sample
+              Voir un Audit Flash sample
             </a>
-            <div className="rounded-xl border border-[#e3e0d8] bg-white/55 p-6">
-              <div className="mb-4 flex items-center gap-3 text-sm font-semibold uppercase tracking-[0.18em] text-text-strong-950">
-                <ShieldCheck className="h-5 w-5 text-[#2675ff]" />
-                Contrôle humain
-              </div>
-              <p className="text-lg leading-relaxed text-[#65748b]">
-                Rien ne sort sans validation. Le système réduit la charge, mais votre standard reste
-                le point de contrôle final.
-              </p>
-            </div>
           </div>
-          <form onSubmit={handleSubmit} className="rounded-xl border border-[#e3e0d8] bg-white/55 p-5 md:p-6">
-            <div className="grid gap-4 md:grid-cols-2">
-              <Field label="Nom" value={formData.name} onChange={(value) => updateField('name', value)} required />
-              <Field label="Cabinet" value={formData.firm} onChange={(value) => updateField('firm', value)} required />
-              <label className="flex flex-col gap-2 text-sm font-semibold text-text-strong-950">
-                Type de structure
-                <select
-                  value={formData.structureType}
-                  onChange={(event) => updateField('structureType', event.target.value)}
-                  className="h-11 rounded-md border border-[#dedbd2] bg-[#F7F5EF] px-3 text-sm font-normal outline-none focus:border-[#2675ff]"
-                >
-                  <option>CGP</option>
-                  <option>Family office</option>
-                  <option>DAF externalisé</option>
-                  <option>Société de gestion</option>
-                  <option>Autre</option>
-                </select>
-              </label>
-              <Field label="Email pro" type="email" value={formData.email} onChange={(value) => updateField('email', value)} required />
-              <Field label="Lien site ou LinkedIn" value={formData.link} onChange={(value) => updateField('link', value)} className="md:col-span-2" />
-              <label className="flex flex-col gap-2 text-sm font-semibold text-text-strong-950 md:col-span-2">
-                Votre principal goulot documentaire
-                <textarea
-                  required
-                  rows={4}
-                  value={formData.bottleneck}
-                  onChange={(event) => updateField('bottleneck', event.target.value)}
-                  className="resize-none rounded-md border border-[#dedbd2] bg-[#F7F5EF] px-3 py-3 text-sm font-normal outline-none focus:border-[#2675ff]"
-                />
-              </label>
-            </div>
-            <button
-              type="submit"
-              className="mt-5 inline-flex w-full items-center justify-center gap-3 rounded-md bg-text-strong-950 px-6 py-3 text-sm font-semibold text-white transition hover:bg-zinc-800"
-            >
-              Demander un Audit Flash
-              <ArrowRight className="h-4 w-4" />
-            </button>
-            {submitted && <p className="mt-4 text-center text-sm text-[#65748b]">Demande enregistrée côté front. Envoi à brancher.</p>}
-          </form>
         </div>
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-3xl border border-stroke-soft-200 bg-bg-weak-50 p-5 shadow-regular-xs sm:p-8"
+        >
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Field label="Nom" value={formData.name} onChange={(value) => updateField('name', value)} required />
+            <Field label="Cabinet" value={formData.firm} onChange={(value) => updateField('firm', value)} required />
+            <label className="flex flex-col gap-2 text-sm font-medium text-text-strong-950">
+              Type de structure
+              <select
+                value={formData.structureType}
+                onChange={(event) => updateField('structureType', event.target.value)}
+                className="h-11 rounded-xl border border-stroke-soft-200 bg-white px-4 text-sm font-normal text-text-strong-950 outline-none transition focus:border-zinc-400"
+              >
+                <option>CGP</option>
+                <option>Family office</option>
+                <option>DAF externalisé</option>
+                <option>Société de gestion</option>
+                <option>Autre</option>
+              </select>
+            </label>
+            <Field label="Email professionnel" type="email" value={formData.email} onChange={(value) => updateField('email', value)} required />
+            <Field label="Site ou LinkedIn" value={formData.link} onChange={(value) => updateField('link', value)} className="sm:col-span-2" />
+            <label className="flex flex-col gap-2 text-sm font-medium text-text-strong-950 sm:col-span-2">
+              Principal goulot documentaire
+              <textarea
+                required
+                rows={4}
+                value={formData.bottleneck}
+                onChange={(event) => updateField('bottleneck', event.target.value)}
+                className="resize-none rounded-xl border border-stroke-soft-200 bg-white px-4 py-3 text-sm font-normal text-text-strong-950 outline-none transition focus:border-zinc-400"
+              />
+            </label>
+          </div>
+          <button
+            type="submit"
+            className="mt-6 inline-flex h-12 w-full items-center justify-center gap-3 rounded-full bg-primary-base px-6 text-sm font-medium text-white shadow-fancy-buttons-neutral transition hover:bg-zinc-800"
+          >
+            Demander un Audit Flash — offert
+            <ArrowRight className="h-4 w-4" />
+          </button>
+          {submitted && (
+            <p className="mt-4 text-center text-sm font-medium text-text-sub-600">
+              Demande enregistrée côté front. Envoi à brancher.
+            </p>
+          )}
+        </form>
       </div>
     </section>
   );
 };
 
-const Field = ({
-  label,
-  value,
-  onChange,
-  type = 'text',
-  required = false,
-  className,
-}: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  type?: string;
-  required?: boolean;
-  className?: string;
-}) => (
-  <label className={cx('flex flex-col gap-2 text-sm font-semibold text-text-strong-950', className)}>
-    {label}
-    <input
-      required={required}
-      type={type}
-      value={value}
-      onChange={(event) => onChange(event.target.value)}
-      className="h-11 rounded-md border border-[#dedbd2] bg-[#F7F5EF] px-3 text-sm font-normal outline-none focus:border-[#2675ff]"
-    />
-  </label>
-);
-
-const FAQSection = () => (
-  <section className="bg-[#F7F5EF] px-6 py-16 md:py-24">
-    <div className="mx-auto max-w-6xl">
-      <SectionHeader eyebrow="Questions fréquentes" title="Ce qu'on clarifie avant de travailler ensemble." />
-      <div className="max-w-4xl">
-        {faqs.map((faq) => (
-          <FAQItem key={faq.q} q={faq.q} a={faq.a} />
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
 const Footer = () => (
-  <footer className="border-t border-[#dedbd2] bg-white/70 px-6 py-8">
-    <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 text-sm text-[#65748b] md:flex-row">
-      <div className="flex items-center gap-2 font-bold text-text-strong-950">
-        <LogoMark />
-        Finoptic<span className="text-[#2675ff]">.fr</span>
-      </div>
+  <footer className="border-t border-stroke-soft-200 px-5 py-10">
+    <div className="mx-auto flex max-w-6xl flex-col gap-4 text-sm text-zinc-500 sm:flex-row sm:items-center sm:justify-between">
+      <p className="font-semibold text-text-strong-950">Finoptic</p>
       <p>© {new Date().getFullYear()} Finoptic. Tous droits réservés.</p>
     </div>
   </footer>
@@ -607,16 +649,20 @@ const Footer = () => (
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-[#F7F5EF] font-sans text-text-strong-950 selection:bg-[#2675ff] selection:text-white">
+    <div className="min-h-screen bg-bg-weak-50 font-sans text-text-strong-950 selection:bg-primary-base selection:text-white">
       <Header />
       <main>
         <Hero />
-        <MediaGrid />
-        <ProofWall />
-        <EngineSection />
-        <FitAndProcess />
-        <Founder />
+        <ProblemSection />
+        <DocumentEngineSection />
+        <ExampleProofSection />
+        <UseCasesSection />
+        <FitSection />
+        <ProcessOfferSection />
+        <GuaranteeSection />
+        <FounderSection />
         <FAQSection />
+        <FinalCTASection />
         <AuditFormSection />
       </main>
       <Footer />
