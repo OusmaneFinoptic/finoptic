@@ -444,7 +444,7 @@ const FounderSection = () => (
       </div>
       <SectionIntro title="Construit par un profil finance, pas par une agence IA généraliste.">
         <p>
-          Finoptic est fondé par Ousmane Thienta, profil finance passé par des environnements de
+          Finoptic est fondé par un profil finance passé par des environnements de
           dette privée, direct lending, M&A et analyse financière.
         </p>
         <p className="mt-4">
